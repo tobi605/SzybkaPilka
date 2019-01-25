@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}Zaloguj się{% endblock %}
+{% block content %}
+
+<h1><p class="text-center">Zaloguj się</p></h1>
+<br>
+<form action="{{ url_for('login') }}" method="POST">
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

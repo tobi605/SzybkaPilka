@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}Zarejestruj się{% endblock %}
+{% block content %}
+
+
+<h1><p class="text-center">Zarejestruj {{person}}</p></h1>
+<br>
+
+<form action="{{ url_for('register', person=person) }}" method="POST">
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(size=32) }}
+        </p>
+        <p>
+            {{ form.surname.label }}<br>
+            {{ form.surname(size=32) }}
+        </p>
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+</form>
+
+
+{% endblock %}

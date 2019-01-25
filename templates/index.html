@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}Index{% endblock %}
+{% block content %}
+
+
+<h1><p class="text-center">System piłka</p></h1>
+<br>
+Lista dostępnych aktywności:
+
+<br><a href="{{ url_for('login') }} ">Zaloguj się</a>
+
+<br><a href="{{ url_for('index') }} ">Zgłoś skład</a>
+<br><a href="{{ url_for('index') }} ">Zgłoś drużynę</a>
+<br><a href="{{ url_for('index') }} ">Przeglądaj wnioski</a>
+
+<br><a href="{{ url_for('register', person='player') }} ">Zarejestruj zawodnika</a>
+<br><a href="{{ url_for('register', person='referee') }} ">Zarejestruj sędziego</a>
+<br><a href="{{ url_for('register', person='admin') }} ">Zarejestruj zarzadce ligi</a>
+
+{% endblock %}
