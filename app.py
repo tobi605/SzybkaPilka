@@ -1,5 +1,4 @@
 from flask import Flask, send_from_directory, render_template, g, abort, request, flash, redirect, url_for, session
-from datetime import datetime
 from forms import LoginForm, UserRegisterForm
 import hashlib
 import sqlite3
