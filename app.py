@@ -8,6 +8,11 @@ app.config['SECRET_KEY'] = 'reeeeeee'
 import os
 
 DATABASE = 'database.db'
+welcome_texts = {
+    "player":"zawodnik",
+    "referee":"sędzia",
+    "admin":"zarządca ligi"
+}
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -62,8 +67,9 @@ def register_form(person):
     if person not in ['player', 'referee', 'admin']:
         return abort(404)
 
+    p = welcome_texts[person]
     form = UserRegisterForm()
-    return render_template('register.html', person=person, form=form)
+    return render_template('register.html', person=p, form=form)
 
 @app.route('/register/<person>', methods=['POST'])
 def register(person):
