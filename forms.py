@@ -4,19 +4,19 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 
 class LoginForm(FlaskForm):
-    username = StringField('email', validators=[DataRequired()])
-    password = PasswordField('haslo', validators=[DataRequired()])
-    submit = SubmitField('Zaloguj sie')
+    username = StringField(u'Email', validators=[DataRequired()])
+    password = PasswordField(u'Hasło', validators=[DataRequired()])
+    submit = SubmitField(u'Zaloguj się')
 
 class UserRegisterForm(FlaskForm):
-    name = StringField('imie', validators=[DataRequired()])
-    surname = StringField('nazwisko', validators=[DataRequired()])
-    username = StringField('email', validators=[DataRequired()])
-    password = PasswordField('haslo', validators=[DataRequired()])
-    submit = SubmitField('Zarejestruj sie')
+    name = StringField(u'Imię', validators=[DataRequired()])
+    surname = StringField('Nazwisko', validators=[DataRequired()])
+    username = StringField('Email', validators=[DataRequired()])
+    password = PasswordField(u'Hasło', validators=[DataRequired()])
+    submit = SubmitField(u'Zarejestruj się')
 
 class RefereeRegisterForm(UserRegisterForm):
-    phone = StringField('numer telefonu', validators=[DataRequired])
+    phone = StringField('Numer telefonu', validators=[DataRequired])
 
 class PlayerRegisterForm(UserRegisterForm):
     pass
