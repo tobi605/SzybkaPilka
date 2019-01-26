@@ -2,35 +2,39 @@
 <html>
   <head>
     <meta charset="utf-8"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     {% block head %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>System piłka</title>
+    <title>System Szybka Piłka</title>
     {% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4" style="background-color: #e0e0e0;">
       <a href="{{ url_for('index') }}" class="navbar-left" style="margin-right: 8vw"><img src="{{url_for('static', filename='logo.png')}}" style="height:10vh;width:auto;margin-right: 1vw">Szybka Piłka</a>
       <li class="nav-link">
-        <a class="nav-item" href="{{ url_for('index') }}" style="margin-right: 1vw">Start</a>
+        <a class="btn btn-outline-dark" href="{{ url_for('index') }}" style="margin-right: 1vw">Start</a>
       </li>
       <li class="nav-link">
-        <a class="nav-item" href="{{ url_for('index') }} " style="margin-right: 1vw">Zgłoś skład</a>
+        <a class="btn btn-outline-dark" href="{{ url_for('add_team') }} " style="margin-right: 1vw">Zgłoś skład</a>
       </li>
       <li class="nav-link">
-        <a class="nav-item" href="{{ url_for('index') }} " style="margin-right: 1vw">Zgłoś drużynę</a>
+        <a class="btn btn-outline-dark" href="{{ url_for('index') }} " style="margin-right: 1vw">Zgłoś drużynę</a>
       </li>
       <li class="nav-link">
-        <a class="nav-item" href="{{ url_for('index') }} " style="margin-right: 1vw">Przeglądaj wnioski</a>
+        <a class="btn btn-outline-dark" href="{{ url_for('index') }} " style="margin-right: 1vw">Przeglądaj wnioski</a>
       </li>
       <li class="nav-item dropdown" style="list-style: none">
-        <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zarejestruj</a>
+        <a class="btn btn-outline-dark nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zarejestruj</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{{ url_for('register', person='player') }} ">Zarejestruj zawodnika</a>
           <a class="dropdown-item" href="{{ url_for('register', person='referee') }} ">Zarejestruj sędziego</a>
           <a class="dropdown-item" href="{{ url_for('register', person='admin') }} ">Zarejestruj zarządcę ligi</a>
         </div>
       </li>
-      <a class="navbar-nav ml-auto" href="{{ url_for('login') }} " style="margin-right: 1vw">Zaloguj się</a>
+      <a class="btn btn-outline-dark navbar-nav ml-auto" href="{{ url_for('login') }} " style="margin-right: 1vw">Zaloguj się</a>
     </nav>
     
     {% with messages = get_flashed_messages() %}
@@ -55,8 +59,5 @@
           &copy; Copyright 2019 by CodeDuck
       </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>

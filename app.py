@@ -96,6 +96,10 @@ def register(person):
     db.commit()
     return redirect(url_for('login_form'))
 
+@app.route('/addteam', methods=['GET'])
+def add_team():
+    return render_template('add_team.html')
+
 @app.route('/')
 def index():
     return render_template('index.html')

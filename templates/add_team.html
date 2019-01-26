@@ -1,0 +1,152 @@
+{% extends "layout.html" %}
+
+{% block title %}Zgłoś skład{% endblock %}
+{% block content %}
+
+<style>
+    .active{
+        background-color:#17a2b8;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            Dostępni zawodnicy:<br/>
+            <table class="display" id="available">
+                <thead>
+                    <tr>
+                        <th scope="col">Nr</th>
+                        <th scope="col">Imię</th>
+                        <th scope="col">Nazwisko</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--put for loop inserting players here, remove mock rows-->
+                        <tr>
+                            <th>1</th>
+                            <td>Adam</td>
+                            <td>Adamski</td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm">
+            <div class="container">
+                <div class="row-sm">
+                    <button id="addTeam" type="button" class="btn btn-arrow-right btn-success"> Dodaj do składu </button><br><br>
+                    <button id="removeTeam" type="button" class="btn btn-arrow-left btn-danger"> Usuń ze składu </button><br>
+                </div>
+                <br><br><br>
+                <div class="row-sm">
+                    <button id="addReserve" type="button" class="btn btn-arrow-right btn-success"> Dodaj do rezerwy </button><br><br>
+                    <button id="removeReserve" type="button" class="btn btn-arrow-left btn-danger"> Usuń z rezerwy </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="container">
+                <div class="row-sm">
+                        Skład podstawowy:<br/>
+                        <table class="display" id="team">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nr</th>
+                                    <th scope="col">Imię</th>
+                                    <th scope="col">Nazwisko</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Adam</td>
+                                        <td>Adamski</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Paweł</td>
+                                        <td>Pawełski</td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                </div>
+                <br>
+                <div class="row-sm">
+                        Skład rezerwowy:<br/>
+                        <table class="display" id="reserve">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nr</th>
+                                    <th scope="col">Imię</th>
+                                    <th scope="col">Nazwisko</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Adam</td>
+                                        <td>Adamski</td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn ml-auto mr-0">Zgłoś</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        var availableTable = $('#available').dataTable({
+            paging:   false,
+            ordering: false,
+            info:     false,
+            processing:false
+        });
+        var teamTable = $('#team').dataTable({
+            "paging":   false,
+            "ordering": false,
+            "info":     false
+        });
+        var reserveTable = $('#reserve').dataTable({
+            "paging":   false,
+            "ordering": false,
+            "info":     false
+        }); 
+        availableTable.on('click', 'tbody tr', function(event) {
+            $(this).toggleClass('active');
+        });
+        teamTable.on('click', 'tbody tr', function(event) {
+            $(this).toggleClass('active');
+        });
+        reserveTable.on('click', 'tbody tr', function(event) {
+            $(this).toggleClass('active');
+        });
+        $('#addTeam').on('click',function(){
+            moveRows(availableTable,teamTable);
+        });
+        $('#removeTeam').on('click',function(){
+            moveRows(teamTable,availableTable);
+        });
+        $('#addReserve').on('click',function(){
+            moveRows(availableTable,reserveTable);
+        });
+        $('#removeReserve').on('click',function(){
+            moveRows(reserveTable, availableTable);
+        });
+    });
+    function moveRows(fromTable, toTable){
+	var $row= fromTable.find(".active");
+	$.each($row, function(k, v){
+		if(this !== null){
+			addRow = fromTable.fnGetData(this);
+			toTable.fnAddData(addRow);
+			fromTable.fnDeleteRow(this);
+		}
+	});
+}
+</script>
+
+{% endblock %}
