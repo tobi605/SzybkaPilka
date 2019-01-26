@@ -63,7 +63,7 @@ def register_form(person):
     if person not in ['player', 'referee', 'admin']:
         return abort(404)
 
-    welcome_texts = { 'player':'zawodnik', 'referee':'sędzia', 'admin':'zarządca ligi' }
+    welcome_texts = { 'player':'zawodnik', 'referee':u'sędzia', 'admin':u'zarządca ligi' }
     p = welcome_texts[person]
     print(person)
     form = UserRegisterForm()
