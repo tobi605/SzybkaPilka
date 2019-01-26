@@ -9,9 +9,9 @@ import os
 
 DATABASE = 'database.db'
 welcome_texts = {
-    "player":"zawodnik",
-    "referee":"sędzia",
-    "admin":"zarządca ligi"
+    'player':'zawodnik',
+    'referee':'sędzia',
+    'admin':'zarządca ligi'
 }
 
 def get_db():
