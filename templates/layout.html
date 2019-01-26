@@ -7,7 +7,33 @@
     {% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4"> </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+      <a href="{{ url_for('index') }}" class="navbar-left" style="margin-right: 8vw"><img src="static/logo.png" style="height:10vh;width:auto;margin-right: 1vw">Szybka Piłka</a>
+      <li class="nav-link">
+        <a class="nav-item" href="{{ url_for('index') }}" style="margin-right: 1vw">Start</a>
+      </li>
+      <li class="nav-link">
+        <a class="nav-item" href="{{ url_for('index') }}" style="margin-right: 1vw">Zgłoś drużynę</a>
+      </li>
+      <li class="nav-link">
+        <a class="nav-item" href="{{ url_for('index') }} " style="margin-right: 1vw">Zgłoś skład</a>
+      </li>
+      <li class="nav-link">
+        <a class="nav-item" href="{{ url_for('index') }} " style="margin-right: 1vw">Zgłoś drużynę</a>
+      </li>
+      <li class="nav-link">
+        <a class="nav-item" href="{{ url_for('index') }} " style="margin-right: 1vw">Przeglądaj wnioski</a>
+      </li>
+      <li class="nav-item dropdown" style="list-style: none">
+        <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zarejestruj</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{{ url_for('register', person='player') }} ">Zarejestruj zawodnika</a>
+          <a class="dropdown-item" href="{{ url_for('register', person='referee') }} ">Zarejestruj sędziego</a>
+          <a class="dropdown-item" href="{{ url_for('register', person='admin') }} ">Zarejestruj zarzadce ligi</a>
+        </div>
+      </li>
+      <a class="navbar-nav ml-auto" href="{{ url_for('login') }} " style="margin-right: 1vw">Zaloguj się</a>
+    </nav>
     
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -24,13 +50,13 @@
             <div id="content"></div>{% block content %}{% endblock %}</div>
         </div>
     </div>
-
-    <div id="footer">
-    <hr>
-      {% block footer %}
-      &copy; Copyright 2019 by CodeDuck.
-      {% endblock %}
-    </div>
+    
+    <footer class="page-footer font-small fixed-bottom">
+      <div class="footer-copyright text ml-1 mb-1">
+        <hr>
+          &copy; Copyright 2019 by CodeDuck
+      </div>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
