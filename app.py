@@ -67,7 +67,7 @@ def register_form(person):
     p = welcome_texts[person]
     print(person)
     form = UserRegisterForm()
-    return render_template('register.html', person=p, form=form)
+    return render_template('register.html', person=person, form=form, welcome=p)
 
 @app.route('/register/<person>', methods=['POST'])
 def register(person):
