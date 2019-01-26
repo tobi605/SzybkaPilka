@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block title %}Przeglądaj wnioski{% endblock %}
+{% block content %}
+
+<ul class="nav nav-tabs" id="tabs" role="tablist">
+    <!-- for each item loop indexes, put in ids-->
+    <li class="nav-item">
+        <a class="nav-link active" id="1" data-toggle="tab" role="tab" href="#pane1">1</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="2" data-toggle="tab" role="tab" href="#pane2">2</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="pane1">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <img src="{{url_for('static', filename='logo.png')}}" style="height:20vh;width:auto;"/>
+                </div>
+                <div class="col">
+                    <div class="container">
+                        <div class="row">
+                            Nazwa
+                        </div>
+                        <div class="row">
+                            Data
+                        </div>
+                        <div>
+                            Trener
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table">
+                        <thead>
+                                <tr>
+                                    <th scope="col">Imię i nazwisko</th>
+                                    <th scope="col">Rola</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--put for loop inserting players here, remove mock rows-->
+                                    <tr>
+                                        <td>Adam Adamski</td>
+                                        <td>Zawodnik</td>
+                                    </tr>
+                            </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Uwagi</h5>
+                    </div>
+                    <p class="card-text">Bla bla bla</p>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <button class="btn ml-0 mr-auto">Zaakceptuj</button>
+                <button class="btn ml-auto mr-0">Odrzuć</button>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="pane2">
+            <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <img src="{{url_for('static', filename='logo.png')}}" style="height:20vh;width:auto;"/>
+                        </div>
+                        <div class="col">
+                            <div class="container">
+                                <div class="row">
+                                    Nazwa2
+                                </div>
+                                <div class="row">
+                                    Data2
+                                </div>
+                                <div>
+                                    Trener2
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                                <thead>
+                                        <tr>
+                                            <th scope="col">Imię i nazwisko</th>
+                                            <th scope="col">Rola</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--put for loop inserting players here, remove mock rows-->
+                                            <tr>
+                                                <td>Paweł Pawełski</td>
+                                                <td>Medyk</td>
+                                            </tr>
+                                    </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Uwagi2</h5>
+                            </div>
+                            <p class="card-text">Bla bla bleh</p>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <button class="btn ml-0 mr-auto">Zaakceptuj</button>
+                        <button class="btn ml-auto mr-0">Odrzuć</button>
+                    </div>
+                </div>
+    </div>
+</div>
+
+{% endblock %}

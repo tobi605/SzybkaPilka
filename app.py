@@ -100,6 +100,10 @@ def register(person):
 def add_team():
     return render_template('add_team.html')
 
+@app.route('/forms')
+def show_forms():
+    return render_template('show_forms.html')
+
 @app.route('/')
 def index():
     return render_template('index.html')
