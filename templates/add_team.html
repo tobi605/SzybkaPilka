@@ -81,7 +81,7 @@
         </div>
     </div>
     <div class="row">
-        <button class="btn ml-auto mr-0">Zgłoś</button>
+        <button id="submit" class="btn ml-auto btn-info mr-0">Zgłoś</button>
     </div>
 </div>
 
@@ -123,6 +123,22 @@
         });
         $('#removeReserve').on('click',function(){
             moveRows(reserveTable, availableTable);
+        });
+        $('#submit').on('click', function(){
+            if(confirm("Czy jesteś pewny/a?")){
+                $.ajax({
+                    url: '/addteam',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        teamTable: teamTable.fnGetData(),
+                        reserveTable: reserveTable.fnGetData()
+                    }),
+                    dataType: 'json'
+                }).always(function(){
+                    document.location = '/';
+                });
+            }
         });
     });
     function moveRows(fromTable, toTable){

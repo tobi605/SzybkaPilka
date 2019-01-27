@@ -125,6 +125,42 @@ def add_team():
     players = query_db('SELECT z.numer, o.imie, o.nazwisko FROM Zawodnik z JOIN Osoba o ON z.email=o.email WHERE druzyna = ?', [team_name])
     return render_template('add_team.html', team_name=team_name, players=players)
 
+@app.route('/addteam', methods=['POST'])
+def create_team():
+    if session.get('type') != 'coach':
+        flash(u"brak uprawnień")
+        return redirect(url_for('index'))
+
+    t = query_db('select nazwa, logo FROM Druzyna WHERE trener = ?', [session.get('username')])
+    if not t:
+        flash(u"trener nie posiada żadnej drużyny przypisanej do niego")
+        return redirect(url_for('index'))
+
+    team_name, team_logo = t[0]
+    teamTable = request.json['teamTable']
+    reserveTable = request.json['reserveTable']
+
+    db = get_db()
+    db.execute('INSERT INTO Sklad (\'trener\') VALUES (?)', [session['username']])
+    cur = db.execute('select seq from sqlite_sequence where name=\'Sklad\'')
+    skladId = int(cur.fetchone()[0])
+
+    for player in teamTable:
+        number, name, surname = player
+        player_email = query_db('SELECT email FROM Zawodnik WHERE druzyna=? AND numer=?;', [team_name, number], one=True)[0]
+        print(skladId, player_email)
+        db.execute('INSERT INTO TworzySklad VALUES (?, ?, ?);', [skladId, player_email, 0])
+    
+    for player in reserveTable:
+        number, name, surname = player
+        player_email = query_db('SELECT email FROM Zawodnik WHERE druzyna=? AND numer=?;', [team_name, number], one=True)[0]
+        db.execute('INSERT INTO TworzySklad VALUES (?, ?, ?);', [skladId, player_email, 1])
+    
+    db.commit()
+
+    flash(u"Twój wniosek został zapisany")
+    return 'OK'
+
 @app.route('/forms')
 def show_forms():
     if session.get('type') != 'admin':
