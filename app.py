@@ -216,16 +216,16 @@ def add_form():
 
     form_status = {True:1, False:2}[accepted]
 
+    db = get_db()
+    db.execute('''UPDATE Wniosek SET status=?, uwagi=?, rozpatrujacy=? WHERE id=?''', [form_status, reason, session.get('username'), id])
+    db.commit()
+
     if accepted:
         flash("zatwierdzono wniosek")
     else:
         flash("odrzucono wniosek")
 
-    db = get_db()
-    db.execute('''UPDATE Wniosek SET status=?, uwagi=?, rozpatrujacy=? WHERE id=?''', [form_status, reason, session.get('username'), id])
-    db.commit()
-
-    return redirect(url_for('show_forms'))
+    return 'OK'
 
 @app.route('/')
 def index():
