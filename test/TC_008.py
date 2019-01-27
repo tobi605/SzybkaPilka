@@ -21,3 +21,6 @@ class Test(BaseTest):
         uwagi.send_keys('Test')
         driver.find_element_by_id('submit').click()
         assert 'odrzucono wniosek' in driver.page_source
+
+if __name__ == "__main__":
+    unittest.main()

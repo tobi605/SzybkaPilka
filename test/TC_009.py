@@ -19,3 +19,6 @@ class Test(BaseTest):
         driver.find_element_by_css_selector("input[type='radio'][value='accept']").click()
         driver.find_element_by_id('submit').click()
         assert 'zaakceptowano wniosek' in driver.page_source
+
+if __name__ == "__main__":
+    unittest.main()
