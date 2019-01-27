@@ -113,7 +113,8 @@ def register(person):
 @app.route('/addteam', methods=['GET'])
 def add_team():
     if session.get('type') != 'coach':
-        return abort(403)
+        flash(u"break uprawnień")
+        return redirect(url_for('index'))
 
     t = query_db('select nazwa, logo FROM Druzyna WHERE trener = ?', [session.get('username')])
     if not t:
@@ -127,7 +128,8 @@ def add_team():
 @app.route('/forms')
 def show_forms():
     if session.get('type') != 'admin':
-        return abort(403)
+        flash(u"break uprawnień")
+        return redirect(url_for('index'))
 
     return render_template('show_forms.html')
 
