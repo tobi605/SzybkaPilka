@@ -3,6 +3,18 @@
 {% block title %}Przeglądaj wnioski{% endblock %}
 {% block content %}
 
+<script>
+        $(document).ready(function(){
+            $('input[type=radio][name=options]').change(function(){
+                if(this.value=='accept'){
+                    $('#uwagiInput').prop('disabled',true);
+                } else{
+                    $('#uwagiInput').prop('disabled',false);
+                }
+            });
+        });
+</script>
+
 <ul class="nav nav-tabs" id="tabs" role="tablist">
     <!-- for each item loop indexes, put in ids-->
     <li class="nav-item">
@@ -56,12 +68,19 @@
                     <div class="card-header">
                         <h5 class="card-title">Uwagi</h5>
                     </div>
-                    <p class="card-text">Bla bla bla</p>
+                    <input id="uwagiInput" class="card-text" disabled="true"/>
                 </div>
             </div>
             <div class="row mt-5">
-                <button class="btn ml-0 mr-auto">Zaakceptuj</button>
-                <button class="btn ml-auto mr-0">Odrzuć</button>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-secondary active">
+                                <input type="radio" name="options" value="accept">Zaakceptuj</button>
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="options" value="deny">Odrzuć</button>
+                            </label>
+                        </div>
+                        <button class="btn ml-auto mr-0" id="submit">Wyślij odpowiedź</button>
             </div>
         </div>
     </div>
@@ -106,14 +125,21 @@
                     <div class="row">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title">Uwagi2</h5>
+                                <h5 class="card-title">Uwagi</h5>
                             </div>
-                            <p class="card-text">Bla bla bleh</p>
+                            <input id="uwagiInput" class="card-text" disabled="true"/>
                         </div>
                     </div>
                     <div class="row mt-5">
-                        <button class="btn ml-0 mr-auto">Zaakceptuj</button>
-                        <button class="btn ml-auto mr-0">Odrzuć</button>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-secondary active">
+                                <input type="radio" name="options" value="accept">Zaakceptuj</button>
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="options" value="deny">Odrzuć</button>
+                            </label>
+                        </div>
+                        <button class="btn ml-auto mr-0" id="submit">Wyślij odpowiedź</button>
                     </div>
                 </div>
     </div>
