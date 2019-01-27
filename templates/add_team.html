@@ -9,6 +9,8 @@
     }
 </style>
 <div class="container">
+    <h1>{{ team_name }}</h1>
+
     <div class="row">
         <div class="col-sm">
             Dostępni zawodnicy:<br/>
@@ -21,12 +23,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!--put for loop inserting players here, remove mock rows-->
+                    {% for player in players %}
                         <tr>
-                            <th>1</th>
-                            <td>Adam</td>
-                            <td>Adamski</td>
+                            <th>{{player[0]}}</th>
+                            <td>{{player[1]}}</td>
+                            <td>{{player[2]}}</td>
                         </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -56,16 +59,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Adam</td>
-                                        <td>Adamski</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Paweł</td>
-                                        <td>Pawełski</td>
-                                    </tr>
                             </tbody>
                         </table>
                 </div>
@@ -81,11 +74,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Adam</td>
-                                        <td>Adamski</td>
-                                    </tr>
                             </tbody>
                         </table>
                 </div>

@@ -49,23 +49,38 @@ def login():
         return redirect(url_for('login_form'))
 
     hash = hashlib.sha256(password + salt[0]).hexdigest()
-    user = query_db('select imie from Osoba where email = ? and password = ?', [user, hash], one=True)
+    user_email = query_db('select email from Osoba where email = ? and password = ?', [user, hash], one=True)
     if not user:
         flash("bledne haslo")
         return redirect(url_for('login_form'))
 
-    flash("witaj {name}".format(name=user[0]))
-    session['username'] = user[0]
+    flash("witaj {name}".format(name=user_email[0]))
+
+    userType = ''
+    player = query_db('select 1 from Zawodnik where email = ?', [user])
+    if player:
+        userType = 'player'
+    referee = query_db('select 1 from Sedzia where email = ?', [user])
+    if referee:
+        userType = 'referee'
+    admin = query_db('select 1 from ZarzadcaLigi where email = ?', [user])
+    if admin:
+        userType = 'admin'
+    coach = query_db('select 1 from Trener where email = ?', [user])
+    if coach:
+        userType = 'coach'
+
+    session['username'] = user_email[0]
+    session['type'] = userType
     return redirect(url_for('index'))
 
 @app.route('/register/<person>', methods=['GET'])
 def register_form(person):
-    if person not in ['player', 'referee', 'admin']:
+    if person not in ['player', 'referee', 'admin', 'coach']:
         return abort(404)
 
-    welcome_texts = { 'player':'zawodnik', 'referee':u'sędzia', 'admin':u'zarządca ligi' }
+    welcome_texts = { 'player':'zawodnik', 'referee': u'sędzia', 'admin': u'zarządca ligi', 'coach': u'trener'}
     p = welcome_texts[person]
-    print(person)
     form = UserRegisterForm()
     return render_template('register.html', person=person, form=form, welcome=p)
 
@@ -88,20 +103,32 @@ def register(person):
 
     db.execute('insert into Osoba values (?, ?, ?, ?, ?);', [name, surname, username, salt, hash])
     
-    table_map = {'player':'Zawodnik', 'referee':'Sedzia', 'admin':'ZarzadcaLigi'}
+    table_map = {'player':'Zawodnik', 'referee':'Sedzia', 'admin':'ZarzadcaLigi', 'coach':'Trener'}
     table_name = table_map[person]
 
     db.execute('insert into {table} (\'email\') values (?)'.format(table=table_name), [username])
-
     db.commit()
     return redirect(url_for('login_form'))
 
 @app.route('/addteam', methods=['GET'])
 def add_team():
-    return render_template('add_team.html')
+    if session.get('type') != 'coach':
+        return abort(403)
+
+    t = query_db('select nazwa, logo FROM Druzyna WHERE trener = ?', [session.get('username')])
+    if not t:
+        flash(u"trener nie posiada żadnej drużyny przypisanej do niego")
+        return redirect(url_for('index'))
+
+    team_name, team_logo = t[0]
+    players = query_db('SELECT z.numer, o.imie, o.nazwisko FROM Zawodnik z JOIN Osoba o ON z.email=o.email WHERE druzyna = ?', [team_name])
+    return render_template('add_team.html', team_name=team_name, players=players)
 
 @app.route('/forms')
 def show_forms():
+    if session.get('type') != 'admin':
+        return abort(403)
+
     return render_template('show_forms.html')
 
 @app.route('/')
