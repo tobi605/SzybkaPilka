@@ -180,11 +180,49 @@ def show_forms():
         flash(u"brak uprawnień")
         return redirect(url_for('index'))
 
-    return render_template('show_forms.html')
+    forms = query_db('''SELECT Dr.nazwa, Dr.logo, W.data, W.zglaszajacy
+        FROM WniosekDruzynowy D
+        JOIN Wniosek W ON W.id=D.WniosekId
+        JOIN Druzyna Dr ON Dr.trener=W.zglaszajacy
+        WHERE W.status=0''')
+    player_lists = []
+
+    teams = []
+    for f in forms:
+        name, logo, date, coach = f
+
+        players = query_db('''SELECT O.imie, O.nazwisko
+        FROM Osoba O
+        JOIN Zawodnik Z ON O.email=Z.email
+        JOIN Druzyna D ON Z.druzyna=D.nazwa
+        WHERE D.trener = ?''', [coach])
+
+        t = {
+            'name': name,
+            'logo': logo,
+            'date': date,
+            'coach': coach,
+            'players': players
+        }
+        teams.append(t)
+    return render_template('show_forms.html', teams=teams)
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/reset')
+def reset_db():
+    db = get_db()
+    cur = db.cursor()
+    script = open('reset.sql', 'rb').read()
+    cur.executescript(script)
+    db.commit()
+    cur.close()
+    db.close()
+    return 'reset OK!'
+
 
 if __name__ == '__main__':
     app.run(debug=False, use_reloader=True)
