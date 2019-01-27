@@ -27,7 +27,7 @@ INSERT INTO `Trener` (email,numerTelefonu) VALUES ('trener1@wp.pl',NULL);
 
 -- teams
 INSERT INTO `Druzyna` (nazwa,logo,trener) VALUES ('Kaczki','kaczka.png','trener@wp.pl');
-INSERT INTO `Druzyna` (nazwa,logo,trener) VALUES ('Gesi','kaczka.png','trener1@wp.pl');
+INSERT INTO `Druzyna` (nazwa,logo,trener) VALUES ('Gęsi','kaczka.png','trener1@wp.pl');
 
 
 -- players
@@ -40,9 +40,9 @@ INSERT INTO `Zawodnik` (email,druzyna,numer) VALUES ('bocian@wp.pl','Kaczki',51)
 INSERT INTO `Osoba` (imie,nazwisko,email,salt,password) VALUES ('Zbyszek','Bogdanzki','zbychu@interia.pl','a0f01e10','7f44c2844ddec0028da5f43af1f931934b6a882423589981f8031cb26ab35dda');
 INSERT INTO `Zawodnik` (email,druzyna,numer) VALUES ('zbychu@interia.pl','Kaczki',23);
 INSERT INTO `Osoba` (imie,nazwisko,email,salt,password) VALUES ('Adam','Adamski','aadamski2@wp.pl','5828b4bc','856f52e4f0b9595b86e217fbd16161dc0f637a139d520ff6f5ad5929a1a4196b');
-INSERT INTO `Zawodnik` (email,druzyna,numer) VALUES ('aadamski2@wp.pl','Gesi',63);
+INSERT INTO `Zawodnik` (email,druzyna,numer) VALUES ('aadamski2@wp.pl','Gęsi',63);
 INSERT INTO `Osoba` (imie,nazwisko,email,salt,password) VALUES ('Eustaychy','Badamski','euchy@interia.pl','a0f01e10','7f44c2844ddec0028da5f43af1f931934b6a882423589981f8031cb26ab35dda');
-INSERT INTO `Zawodnik` (email,druzyna,numer) VALUES ('euchy@interia.pl','Gesi',99);
+INSERT INTO `Zawodnik` (email,druzyna,numer) VALUES ('euchy@interia.pl','Gęsi',99);
 
 -- team
 INSERT INTO `Sklad` (id,trener) VALUES (1,'trener@wp.pl');
@@ -55,7 +55,6 @@ INSERT INTO `TworzySklad` (skladId,zawodnikEmail,rezerwa) VALUES (1,'aadamski@wp
 -- form
 INSERT INTO `Wniosek` (id,data,status,uwagi,rozpatrujacy,zglaszajacy) VALUES (1,'2019-01-27 22:01:05.521000',0,NULL,NULL,'trener@wp.pl');
 INSERT INTO `WniosekSkladowy` (WniosekId, sklad) VALUES (1, 1);
-
 
 INSERT INTO `Wniosek` (id,data,status,uwagi,rozpatrujacy,zglaszajacy) VALUES (2,'2019-01-27 22:01:05.521000',0,NULL,NULL,'trener@wp.pl');
 INSERT INTO `wniosekDruzynowy` (WniosekId) VALUES (2);

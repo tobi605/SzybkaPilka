@@ -4,63 +4,91 @@
 {% block content %}
 
 <script>
-        $(document).ready(function(){
-            $('input[type=radio][name=options]').change(function(){
-                if(this.value=='accept'){
-                    $('#uwagiInput').prop('disabled',true);
-                } else{
-                    $('#uwagiInput').prop('disabled',false);
-                }
-            });
+    accepted = null;
+
+    $(document).ready(function(){
+        $('input[type=radio][name=options]').change(function(){
+            if(this.value=='accept'){
+                $('#uwagiInput').prop('disabled',true);
+                accepted = true;
+            } else{
+                $('#uwagiInput').prop('disabled',false);
+                accepted = false;
+            }
         });
+    });
+
+    function sendForm(){
+        var reason = '';
+        if(!accepted){
+            reason = $('#uwagiInput')[0].value;
+        }
+
+        if(confirm("Czy jesteś pewny/a?")){
+            $.ajax({
+                url: '/forms',
+                type: 'POST',
+                data: {
+                    'accepted': accepted,
+                    'reason': reason,
+                    'id': $('#formId')[0].innerHTML
+                }
+            }).always(function(){
+                document.location = '/forms';
+            });
+        }
+    }
+
 </script>
 
 <ul class="nav nav-tabs" id="tabs" role="tablist">
-    <!-- for each item loop indexes, put in ids-->
+    {% for team in teams %}
     <li class="nav-item">
-        <a class="nav-link active" id="1" data-toggle="tab" role="tab" href="#pane1">1</a>
+        <a class="nav-link {% if team == teams[0] %} active{% endif %}" data-toggle="tab" role="tab" href="#{{team.name}}">{{team.name}}</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" id="2" data-toggle="tab" role="tab" href="#pane2">2</a>
-    </li>
+    {% endfor %}
 </ul>
 <div class="tab-content">
-    
-    <div class="tab-pane active" id="pane1">
+    {% for team in teams %}
+    <div class="tab-pane {% if team == teams[0] %} active{% endif %}" id="{{team.name}}">
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <img src="{{url_for('static', filename='logo.png')}}" style="height:20vh;width:auto;"/>
+                    <img src="{{url_for('static', filename='logo.png')}}" style="height:20vh; width:auto;"/>
                 </div>
                 <div class="col">
                     <div class="container">
                         <div class="row">
-                            Nazwa
+                            Wniosek Nr: <span id="formId">{{team.id}}</span>
                         </div>
                         <div class="row">
-                            Data
+                            Nazwa: <span id="teamName">{{team.name}}</span>
                         </div>
-                        <div>
-                            Trener
+                        <div class="row">
+                            Data: {{team.date}}
+                        </div>
+                        <div class="row">
+                            Trener: <span id="teamCoach">{{team.coach}}</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <table class="table">
-                        <thead>
-                                <tr>
-                                    <th scope="col">Imię i nazwisko</th>
-                                    <th scope="col">Rola</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!--put for loop inserting players here, remove mock rows-->
-                                    <tr>
-                                        <td>Adam Adamski</td>
-                                        <td>Zawodnik</td>
-                                    </tr>
-                            </tbody>
+                    <thead>
+                        <tr>
+                            <th scope="col">Imię i nazwisko</th>
+                            <th scope="col">Numer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in team.players %}
+                            <tr>
+                                <td>{{player[0]}} {{player[1]}}</td>
+                                <td>{{player[2]}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
             <div class="row">
@@ -72,77 +100,19 @@
                 </div>
             </div>
             <div class="row mt-5">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-secondary active">
-                                <input type="radio" name="options" value="accept">Zaakceptuj</button>
-                            </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" value="deny">Odrzuć</button>
-                            </label>
-                        </div>
-                        <button class="btn ml-auto mr-0" id="submit">Wyślij odpowiedź</button>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary btn-success active">
+                        <input type="radio" name="options" value="accept">Zaakceptuj</button>
+                    </label>
+                    <label class="btn btn-secondary btn-danger">
+                        <input type="radio" name="options" value="deny">Odrzuć</button>
+                    </label>
+                </div>
+                <button class="btn ml-auto mr-0" onclick="sendForm();" id="submit">Wyślij odpowiedź</button>
             </div>
         </div>
     </div>
-
-    <div class="tab-pane" id="pane2">
-            <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <img src="{{url_for('static', filename='logo.png')}}" style="height:20vh;width:auto;"/>
-                        </div>
-                        <div class="col">
-                            <div class="container">
-                                <div class="row">
-                                    Nazwa2
-                                </div>
-                                <div class="row">
-                                    Data2
-                                </div>
-                                <div>
-                                    Trener2
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <table class="table">
-                                <thead>
-                                        <tr>
-                                            <th scope="col">Imię i nazwisko</th>
-                                            <th scope="col">Rola</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!--put for loop inserting players here, remove mock rows-->
-                                            <tr>
-                                                <td>Paweł Pawełski</td>
-                                                <td>Medyk</td>
-                                            </tr>
-                                    </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">Uwagi</h5>
-                            </div>
-                            <input id="uwagiInput" class="card-text" disabled="true"/>
-                        </div>
-                    </div>
-                    <div class="row mt-5">
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-secondary active">
-                                <input type="radio" name="options" value="accept">Zaakceptuj</button>
-                            </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="options" value="deny">Odrzuć</button>
-                            </label>
-                        </div>
-                        <button class="btn ml-auto mr-0" id="submit">Wyślij odpowiedź</button>
-                    </div>
-                </div>
-    </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
