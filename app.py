@@ -1,14 +1,21 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, send_from_directory, render_template, g, abort, request, flash, redirect, url_for, session
 from forms import LoginForm, UserRegisterForm
+import datetime
 import hashlib
 import sqlite3
+import os
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'reeeeeee'
 
-import os
-
 DATABASE = 'database.db'
+
+class Wniosek:
+    OCZEKUJACY = 0
+    ZAAKCEPTOWANY = 1
+    ODRZUCONY = 2
+
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -155,7 +162,13 @@ def create_team():
         number, name, surname = player
         player_email = query_db('SELECT email FROM Zawodnik WHERE druzyna=? AND numer=?;', [team_name, number], one=True)[0]
         db.execute('INSERT INTO TworzySklad VALUES (?, ?, ?);', [skladId, player_email, 1])
-    
+
+    db.execute('''INSERT INTO Wniosek ('data', 'status', 'zglaszajacy') VALUES (?, ?, ?);''',
+                [str(datetime.datetime.now()), Wniosek.OCZEKUJACY, session.get('username')])
+    cur = db.execute('''select seq from sqlite_sequence where name='Wniosek';''')
+    wniosekId = int(cur.fetchone()[0])
+
+    db.execute('''INSERT INTO WniosekSkladowy VALUES (?, ?);''', [wniosekId, skladId])
     db.commit()
 
     flash(u"Twój wniosek został zapisany")
