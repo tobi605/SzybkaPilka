@@ -42,12 +42,11 @@ def query_db(query, args=(), one=False):
     return (rows[0] if rows else None) if one else rows
 
 @APP.teardown_appcontext
-def close_connection(exception):
+def close_connection(_):
     """
         close database on exit
     """
     db_link = getattr(g, '_database', None)
-    print(exception)
     if db_link is not None:
         db_link.close()
 
@@ -197,7 +196,6 @@ def create_team():
         number, _, _ = player
         player_email = query_db('SELECT email FROM Zawodnik WHERE druzyna=? AND numer=?;',
                                 [team_name, number], one=True)[0]
-        print(sklad_id, player_email)
         db_link.execute('INSERT INTO TworzySklad VALUES (?, ?, ?);', [sklad_id, player_email, 0])
 
     for player in reserve_table:
