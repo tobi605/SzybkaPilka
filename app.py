@@ -208,7 +208,8 @@ def create_team():
         db_link.execute('INSERT INTO TworzySklad VALUES (?, ?, ?);', [sklad_id, player_email, 1])
 
     db_link.execute('''INSERT INTO Wniosek ('data', 'status', 'zglaszajacy') VALUES (?, ?, ?);''',
-                    [str(datetime.datetime.now()), WNIOSEK_ID['OCZEKUJACY'], session.get('username')])
+                    [str(datetime.datetime.now()), WNIOSEK_ID['OCZEKUJACY'],
+                     session.get('username')])
     cur = db_link.execute('''select seq from sqlite_sequence where name='Wniosek';''')
     wniosek_id = int(cur.fetchone()[0])
 
