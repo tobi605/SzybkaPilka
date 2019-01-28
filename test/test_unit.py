@@ -3,7 +3,7 @@ import os
 import tempfile
 
 import pytest
-from app import APP as app
+from app import app as app
 
 @pytest.fixture
 def client():
