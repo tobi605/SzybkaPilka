@@ -83,7 +83,7 @@ def login():
     pass_hash = hashlib.sha256(password + salt[0]).hexdigest()
     user_email = query_db('select email from Osoba where email = ? and password = ?',
                           [user, pass_hash], one=True)
-    if not user:
+    if not user_email:
         flash("bledne haslo")
         return redirect(url_for('login_form'))
 
