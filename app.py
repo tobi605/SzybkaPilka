@@ -11,8 +11,8 @@ from flask import Flask, send_from_directory, render_template, g, abort, \
     request, flash, redirect, url_for, session
 from forms import LoginForm, UserRegisterForm
 
-APP = Flask(__name__)
-APP.config['SECRET_KEY'] = 'supersecretpassword'
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'supersecretpassword'
 
 DATABASE = 'database.db'
 
@@ -41,7 +41,7 @@ def query_db(query, args=(), one=False):
     cur.close()
     return (rows[0] if rows else None) if one else rows
 
-@APP.teardown_appcontext
+@app.teardown_appcontext
 def close_connection(_):
     """
         close database on exit
@@ -50,14 +50,14 @@ def close_connection(_):
     if db_link is not None:
         db_link.close()
 
-@APP.route('/static/<path:path>')
+@app.route('/static/<path:path>')
 def send_static(path):
     """
         send files from static dir
     """
     return send_from_directory('files', path)
 
-@APP.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET'])
 def login_form():
     """
         send login form
@@ -65,7 +65,7 @@ def login_form():
     form = LoginForm()
     return render_template('login.html', form=form)
 
-@APP.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     """
         login user
@@ -106,7 +106,7 @@ def login():
     session['type'] = user_type
     return redirect(url_for('index'))
 
-@APP.route('/register/<person>', methods=['GET'])
+@app.route('/register/<person>', methods=['GET'])
 def register_form(person):
     """
         send user register form
@@ -120,7 +120,7 @@ def register_form(person):
     form = UserRegisterForm()
     return render_template('register.html', person=person, form=form, welcome=p_text)
 
-@APP.route('/register/<person>', methods=['POST'])
+@app.route('/register/<person>', methods=['POST'])
 def register(person):
     """
         register specified user
@@ -151,7 +151,7 @@ def register(person):
     db_link.commit()
     return redirect(url_for('login_form'))
 
-@APP.route('/addteam', methods=['GET'])
+@app.route('/addteam', methods=['GET'])
 def add_team():
     """
         show form for adding a team
@@ -170,7 +170,7 @@ def add_team():
                         JOIN Osoba o ON z.email=o.email WHERE druzyna = ?', [team_name])
     return render_template('add_team.html', team_name=team_name, players=players)
 
-@APP.route('/addteam', methods=['POST'])
+@app.route('/addteam', methods=['POST'])
 def create_team():
     """
         push team to db
@@ -216,7 +216,7 @@ def create_team():
     flash(u"Twój wniosek został zapisany")
     return 'OK'
 
-@APP.route('/forms', methods=['GET'])
+@app.route('/forms', methods=['GET'])
 def show_forms():
     """
         show forms for accepting forms
@@ -252,7 +252,7 @@ def show_forms():
         teams.append(team)
     return render_template('show_forms.html', teams=teams)
 
-@APP.route('/forms', methods=['POST'])
+@app.route('/forms', methods=['POST'])
 def add_form():
     """
         set form as processed in db
@@ -281,14 +281,14 @@ def add_form():
 
     return 'OK'
 
-@APP.route('/')
+@app.route('/')
 def index():
     """
         return index site
     """
     return render_template('index.html')
 
-@APP.route('/reset')
+@app.route('/reset')
 def reset_db():
     """
         reset database to original setup
