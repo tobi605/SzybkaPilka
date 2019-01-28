@@ -177,8 +177,7 @@ def create_team():
         push team to db
     """
     if session.get('type') != 'coach':
-        flash(u"brak uprawnień")
-        return redirect(url_for('index'))
+        return abort(403)
 
     rows = query_db('select nazwa, logo FROM Druzyna WHERE trener = ?', [session.get('username')])
     if not rows:
@@ -260,9 +259,15 @@ def add_form():
     """
         set form as processed in db
     """
-    accepted = request.form.get('accepted') == 'true'
-    reason = request.form.get('reason')
-    form_id = request.form.get('id')
+    accepted = request.form.get('accepted', None) == 'true'
+    reason = request.form.get('reason', None)
+    form_id = request.form.get('id', None)
+
+    if 'username' not in session or session.get('type') != 'admin':
+        return abort(403)
+
+    if accepted is None or reason is None or form_id is None:
+        return abort(500)
 
     form_status = {True:1, False:2}[accepted]
 
